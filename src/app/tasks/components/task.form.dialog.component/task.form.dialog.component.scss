@@ -1,0 +1,24 @@
+.title {
+  padding: 0 30px;
+}
+
+.dialog {
+  padding: 30px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: right;
+  gap: 20px;
+  text-align: right;
+  padding: 20px 30px;
+}

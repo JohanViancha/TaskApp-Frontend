@@ -1,0 +1,40 @@
+<div class="dialog">
+  <h2 mat-dialog-title>
+    {{ data.title || "Mensaje" }}
+  </h2>
+
+  <mat-dialog-content>
+    @if (data.message) {
+      <p *ngIf="data.message">
+        {{ data.message }}
+      </p>
+    }
+
+    @if (data.type === "input") {
+      <form [formGroup]="form" class="form">
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>{{ data.inputLabel || "Valor" }}</mat-label>
+
+          <input
+            matInput
+            [placeholder]="data.inputPlaceholder || ''"
+            formControlName="name"
+          />
+          @if (form.controls.name.errors?.["required"]) {
+            <mat-error> El nombre es obligatorio </mat-error>
+          }
+        </mat-form-field>
+      </form>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" *ngIf="data.showActions !== false">
+    <button mat-button (click)="close()">
+      {{ data.cancelText || "Cancelar" }}
+    </button>
+
+    <button mat-flat-button color="primary" (click)="confirm()">
+      {{ data.confirmText || "Aceptar" }}
+    </button>
+  </mat-dialog-actions>
+</div>

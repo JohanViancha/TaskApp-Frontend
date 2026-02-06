@@ -1,0 +1,19 @@
+.app-toolbar {
+  display: flex;
+  padding: 0 16px;
+}
+
+.app-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

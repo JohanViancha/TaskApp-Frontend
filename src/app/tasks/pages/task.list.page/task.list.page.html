@@ -1,1 +1,15 @@
-<p>task.list.page.ts works!</p>,
+<header-component [user]="user$" />
+<mat-card class="container">
+  <div class="header">
+    <h2>Lista de tareas</h2>
+
+    <button mat-raised-button color="primary" (click)="openCreateTask()">
+      <mat-icon>add</mat-icon>
+      Nueva tarea
+    </button>
+  </div>
+  <table-component
+    [isLoading]="(loading$ | async) || false"
+    [tasks]="(tasks$ | async) || []"
+  />
+</mat-card>

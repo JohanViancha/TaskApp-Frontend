@@ -1,1 +1,28 @@
-<p>login.page.ts works!</p>,
+<div class="login-container">
+  <mat-card class="login-card">
+    <h1 class="title">Task App</h1>
+
+    <form class="form" [formGroup]="loginForm" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+
+        <input
+          matInput
+          type="email"
+          placeholder="correo@atomchat.com"
+          formControlName="email"
+        />
+
+        @if (loginForm.controls.email.errors?.['required']) {
+        <mat-error> El correo es obligatorio </mat-error>
+        } @if (loginForm.controls.email.errors?.['email']) {
+        <mat-error> Ingresa un correo válido </mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width">
+        Ingresar
+      </button>
+    </form>
+  </mat-card>
+</div>
