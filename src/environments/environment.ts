@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: 'https://us-central1-taskapp-1ffe0.cloudfunctions.net/api',
+  production: false,
+  apiUrl: 'http://127.0.0.1:5001/taskapp-1ffe0/us-central1/api',
 };
