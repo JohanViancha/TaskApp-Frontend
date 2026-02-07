@@ -99,7 +99,3 @@ Muestra la página principal, el formulario de login, la tabla de tareas, o el m
 <img width="1910" height="957" alt="image" src="https://github.com/user-attachments/assets/33785010-a66d-4930-85ba-40b74eefaca7" />
 
 
-## Pantalla de lista de tareas
-
-
-
