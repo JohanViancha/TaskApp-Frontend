@@ -44,7 +44,7 @@ export class LoginPage {
         width: '400px',
         data: {
           title: 'Iniciar sesión',
-          message: `El correo ${email} no está registrado. Si deseas crear una cuenta, ingresa tu nombre y presiona .`,
+          message: `El correo ${email} no está registrado. Si deseas crear una cuenta, ingresa tu nombre y presiona confirmar.`,
           type: 'input',
           confirmText: 'Crear',
           cancelText: 'Cancelar',

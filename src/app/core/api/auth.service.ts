@@ -16,8 +16,6 @@ export class AuthApiService {
   }
 
   validateSession() {
-    return this.http.get(`${this.baseUrl}/me/`, {
-      withCredentials: true,
-    });
+    return this.http.get(`${this.baseUrl}/me/`);
   }
 }

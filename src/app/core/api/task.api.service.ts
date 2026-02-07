@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Task } from '../models/task.model';
+import { INCLUDE_USER_CONTEXT } from '../../shared/models/context.token';
 
 @Injectable({
   providedIn: 'root',
@@ -11,27 +12,19 @@ export class TaskApiService {
 
   constructor(private http: HttpClient) {}
 
-  getTasks(userId: string) {
-    return this.http.get<Task[]>(`${this.baseUrl}/${userId}`, {
-      withCredentials: true,
-    });
+  getTasks() {
+    return this.http.get<Task[]>(`${this.baseUrl}`);
   }
 
   createTask(data: Partial<Task>) {
-    return this.http.post<Task>(this.baseUrl, data, {
-      withCredentials: true,
-    });
+    return this.http.post<Task>(this.baseUrl, data);
   }
 
   updateTask(id: string, data: Partial<Task>) {
-    return this.http.put<Task>(`${this.baseUrl}/${id}`, data, {
-      withCredentials: true,
-    });
+    return this.http.put<Task>(`${this.baseUrl}/${id}`, data);
   }
 
   deleteTask(id: string) {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, {
-      withCredentials: true,
-    });
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

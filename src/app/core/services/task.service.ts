@@ -1,25 +1,24 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, finalize, tap } from 'rxjs';
-import { Task } from '../models/task.model';
 import { TaskApiService } from '../api/task.api.service';
+import { Task } from '../models/task.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
+  private taskApi = inject(TaskApiService);
   private tasks$ = new BehaviorSubject<Task[]>([]);
   private loading$ = new BehaviorSubject<boolean>(false);
-
-  constructor(private taskApi: TaskApiService) {}
 
   getLoading() {
     return this.loading$.asObservable();
   }
 
-  loadTasks(userId: string) {
+  loadTasks() {
     this.loading$.next(true);
     this.taskApi
-      .getTasks(userId)
+      .getTasks()
       .pipe(
         tap((tasks) => this.tasks$.next(tasks)),
         finalize(() => this.loading$.next(false)),

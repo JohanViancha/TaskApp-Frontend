@@ -1,22 +1,21 @@
-import { TaskService } from './../../../core/services/task.service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
-import { TaskPaginationComponent } from '../task.pagination.component/task.pagination.component';
-import { filter, Observable, switchMap, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import { Task } from '../../../core/models/task.model';
+import { ActionDialogComponent } from '../../../shared/components/action.dialog.component/action.dialog.component.js';
 import { LoadingComponent } from '../../../shared/components/loading.component/loading.component';
 import { TaskFormDialogComponent } from '../task.form.dialog.component/task.form.dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { MatChipsModule } from '@angular/material/chips';
 import {
   DialogResponse,
   TaskForm,
 } from '../task.form.dialog.component/task.form.model.js';
-import { ActionDialogComponent } from '../../../shared/components/action.dialog.component/action.dialog.component.js';
+import { TaskService } from './../../../core/services/task.service';
 
 @Component({
   selector: 'table-component',
@@ -24,7 +23,6 @@ import { ActionDialogComponent } from '../../../shared/components/action.dialog.
   imports: [
     CommonModule,
     LoadingComponent,
-    TaskPaginationComponent,
     MatTableModule,
     MatChipsModule,
     MatIconModule,

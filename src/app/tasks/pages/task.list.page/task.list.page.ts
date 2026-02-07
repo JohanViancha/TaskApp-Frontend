@@ -39,15 +39,13 @@ import { User } from '../../../core/models/user.model';
 })
 export class TaskListPage implements OnInit {
   private authService = inject(AuthService);
-
+  private dialog = inject(MatDialog);
+  private taskService = inject(TaskService);
   tasks$ = this.taskService.getTasks();
   loading$ = this.taskService.getLoading();
   user$: Observable<User | null> = new BehaviorSubject(null);
 
-  constructor(
-    private dialog: MatDialog,
-    private taskService: TaskService,
-  ) {
+  constructor() {
     this.user$ = this.authService.user$;
   }
 
@@ -65,7 +63,6 @@ export class TaskListPage implements OnInit {
           this.taskService.createTask({
             title: data?.title,
             description: data?.description,
-            userId: 'RqGsibGjlHd8uQsWmX7o',
           }),
         ),
       )
@@ -73,6 +70,6 @@ export class TaskListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.taskService.loadTasks('RqGsibGjlHd8uQsWmX7o');
+    this.taskService.loadTasks();
   }
 }
