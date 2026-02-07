@@ -22,6 +22,7 @@ import {
 import { TaskService } from '../../../core/services/task.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/user.model';
+import { LoadingService } from '../../../shared/services/loading.service';
 @Component({
   selector: 'task.list.page',
   standalone: true,
@@ -41,8 +42,8 @@ export class TaskListPage implements OnInit {
   private authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private taskService = inject(TaskService);
+  private loading = inject(LoadingService)
   tasks$ = this.taskService.getTasks();
-  loading$ = this.taskService.getLoading();
   user$: Observable<User | null> = new BehaviorSubject(null);
 
   constructor() {

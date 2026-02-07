@@ -9,7 +9,7 @@
   <!-- Usuario -->
   <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
     <mat-icon>account_circle</mat-icon>
-    {{ (user | async)?.name }}
+    {{ user?.name }}
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
 

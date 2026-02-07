@@ -60,7 +60,7 @@ export class ActionDialogComponent {
       return;
     }
 
-    // this.dialogRef.close(true);
+    this.dialogRef.close(true);
   }
 
   close() {

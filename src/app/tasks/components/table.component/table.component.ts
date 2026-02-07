@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,13 +21,14 @@ import {
   TaskForm,
 } from '../task.form.dialog.component/task.form.model.js';
 import { TaskService } from './../../../core/services/task.service';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'table-component',
   standalone: true,
   imports: [
-    CommonModule,
     LoadingComponent,
+    CommonModule,
     MatTableModule,
     MatChipsModule,
     MatIconModule,
@@ -34,10 +40,9 @@ import { TaskService } from './../../../core/services/task.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
-  constructor(
-    private dialog: MatDialog,
-    private taskService: TaskService,
-  ) {}
+  private dialog = inject(MatDialog);
+  private taskService = inject(TaskService);
+  loadingService = inject(LoadingService)
 
   displayedColumns: string[] = [
     'title',
@@ -48,12 +53,6 @@ export class TableComponent {
   ];
 
   @Input() tasks: Task[] = [];
-  @Input() isLoading: boolean = false;
-
-  pageSize = 5;
-  pageIndex = 0;
-
-  pagedTasks = [...this.tasks];
 
   toggleCompleted(task: Task) {
     if (task.completed) return;
@@ -84,7 +83,6 @@ export class TableComponent {
 
   deleteTask({ id, title }: Task) {
     this.openDialogConfirmDeletion(title)
-
       .afterClosed()
       .pipe(
         tap((confirmed) => {
@@ -95,21 +93,13 @@ export class TableComponent {
       .subscribe();
   }
 
-  onPageChange(event: any) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
 
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-
-    this.pagedTasks = this.tasks.slice(start, end);
-  }
 
   openDialogConfirmDeletion(title: string) {
     return this.dialog.open(ActionDialogComponent, {
       width: '400px',
       data: {
-        title: "Eliminar tarea",
+        title: 'Eliminar tarea',
         message: `¿Seguro que deseas eliminar la tarea "${title}"?`,
         type: 'danger',
         confirmText: 'Eliminar',
@@ -126,10 +116,4 @@ export class TableComponent {
     });
   }
 
-  ngOnInit() {
-    this.onPageChange({
-      pageSize: this.pageSize,
-      pageIndex: this.pageIndex,
-    });
-  }
 }

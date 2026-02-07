@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { filter, switchMap, tap } from 'rxjs';
 import { ActionDialogComponent } from '../../../shared/components/action.dialog.component/action.dialog.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { LoadingComponent } from '../../../shared/components/loading.component/loading.component';
 
 @Component({
   selector: 'login.page',
@@ -22,6 +23,7 @@ import { AuthService } from '../../../core/services/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    LoadingComponent,
   ],
   templateUrl: './login.page.html',
   styleUrl: './login.page.scss',
@@ -61,9 +63,11 @@ export class LoginPage {
             email,
           }),
         ),
-        tap((user) => {
-          if (!user) return;
-          this.authService.setUser(user);
+        tap((data) => {
+          if (!data) return;
+          this.authService.setUser(data.user);
+          localStorage.setItem('jwtToken', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
           this.router.navigate(['/tasks']);
         }),
       )
@@ -81,12 +85,14 @@ export class LoginPage {
     this.authService
       .login(email)
       .pipe(
-        tap((user) => {
-          if (!user) {
+        tap((data) => {
+          if (!data) {
             this.createUser(email);
             return;
           }
-          this.authService.setUser(user);
+          localStorage.setItem('jwtToken', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          this.authService.setUser(data.user);
           this.router.navigate(['/tasks']);
         }),
       )

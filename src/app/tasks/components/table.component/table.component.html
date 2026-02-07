@@ -1,6 +1,8 @@
+<loading-component text="Cargando lista de tareas ..." />
+
 <div class="table-wrapper">
-  @if (isLoading) {
-    <loading-component text="Cargando tareas ..." />
+  @if (tasks.length === 0 && !(this.loadingService.loading$ | async)) {
+    <div class="no-tasks-message">No hay tareas registradas</div>
   } @else {
     <table mat-table [dataSource]="tasks" class="mat-elevation-z2">
       <ng-container matColumnDef="title">

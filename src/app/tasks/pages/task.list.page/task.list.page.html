@@ -1,4 +1,4 @@
-<header-component [user]="user$" />
+<header-component />
 <mat-card class="container">
   <div class="header">
     <h2>Lista de tareas</h2>
@@ -9,7 +9,6 @@
     </button>
   </div>
   <table-component
-    [isLoading]="(loading$ | async) || false"
     [tasks]="(tasks$ | async) || []"
   />
 </mat-card>

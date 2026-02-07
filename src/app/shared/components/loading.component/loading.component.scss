@@ -1,9 +1,29 @@
 .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 1.5rem;
   background: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+}
+
+.overlay.fullscreen {
+  position: fixed;
+}
+
+.overlay .spinner {
+  width: 60px;
+  height: 60px;
+}
+
+.overlay .text {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
 }

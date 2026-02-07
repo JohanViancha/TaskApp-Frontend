@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthApiService } from '../api/auth.service';
+import { AuthApiService } from '../api/auth/auth.service';
 import { User } from '../models/user.model';
 import { BehaviorSubject } from 'rxjs';
 
@@ -17,6 +17,7 @@ export class AuthService {
 
   clear() {
     this.userSubject.next(null);
+    localStorage.removeItem('jwtToken');
   }
 
   private authService = inject(AuthApiService);

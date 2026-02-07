@@ -12,6 +12,6 @@ export class UserApiService {
   constructor(private http: HttpClient) {}
 
   createUser(data: Partial<User>) {
-    return this.http.post<User>(this.baseUrl, data);
+    return this.http.post<{user: User, token: string }>(this.baseUrl, data);
   }
 }

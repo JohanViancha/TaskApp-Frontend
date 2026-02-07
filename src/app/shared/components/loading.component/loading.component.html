@@ -1,4 +1,6 @@
- <div class="overlay">
-    <mat-spinner></mat-spinner>
-    <span>{{ text }}</span>
+@if (loading$ | async) {
+  <div class="overlay">
+    <mat-spinner class="spinner"></mat-spinner>
+    <div class="text">{{ text || "Cargando..." }}</div>
   </div>
+}

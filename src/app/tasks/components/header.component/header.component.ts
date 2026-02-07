@@ -31,8 +31,10 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-  @Input() user!: Observable<User | null>;
-
+  user: User | null = null;
+  constructor() {
+    this.user = JSON.parse(localStorage.getItem('user') || '') || null;
+  }
   appName = 'TaskApp';
 
   logout() {

@@ -13,12 +13,10 @@ export class AuthApiService {
   constructor(private http: HttpClient) {}
 
   login(email: string) {
-    return this.http.get<User>(`${this.baseUrl}/login?email=${email}`);
+    return this.http.get<{user: User, token: string }>(`${this.baseUrl}/login?email=${email}`);
   }
 
   validateSession() {
-    return this.http.get(`${this.baseUrl}/me/`, {
-      context: new HttpContext().set(WITH_CREDENTIALS, true)
-    });
+    return this.http.get(`${this.baseUrl}/me`);
   }
 }

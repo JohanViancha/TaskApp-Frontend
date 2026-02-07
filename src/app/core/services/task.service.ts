@@ -2,26 +2,23 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, finalize, tap } from 'rxjs';
 import { TaskApiService } from '../api/task.api.service';
 import { Task } from '../models/task.model';
+import { LoadingService } from '../../shared/services/loading.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   private taskApi = inject(TaskApiService);
+  private loadingService = inject(LoadingService);
   private tasks$ = new BehaviorSubject<Task[]>([]);
-  private loading$ = new BehaviorSubject<boolean>(false);
-
-  getLoading() {
-    return this.loading$.asObservable();
-  }
 
   loadTasks() {
-    this.loading$.next(true);
+    this.loadingService.show();
     this.taskApi
       .getTasks()
       .pipe(
         tap((tasks) => this.tasks$.next(tasks)),
-        finalize(() => this.loading$.next(false)),
+        finalize(() => this.loadingService.hide()),
       )
       .subscribe();
   }
@@ -40,7 +37,7 @@ export class TaskService {
         const currentTasks = this.tasks$.getValue();
         this.tasks$.next([...currentTasks, newTask]);
       }),
-      finalize(() => this.loading$.next(false)),
+      finalize(() => this.loadingService.hide()),
     );
   }
 
@@ -62,7 +59,7 @@ export class TaskService {
         const currentTasks = this.tasks$.getValue();
         this.tasks$.next(currentTasks.filter((t) => t.id !== id));
       }),
-      finalize(() => this.loading$.next(false)),
+      finalize(() => this.loadingService.hide()),
     );
   }
 }

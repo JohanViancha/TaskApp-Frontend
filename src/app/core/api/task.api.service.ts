@@ -13,26 +13,18 @@ export class TaskApiService {
   constructor(private http: HttpClient) {}
 
   getTasks() {
-    return this.http.get<Task[]>(`${this.baseUrl}`, {
-      context: new HttpContext().set(WITH_CREDENTIALS, true),
-    });
+    return this.http.get<Task[]>(`${this.baseUrl}`);
   }
 
   createTask(data: Partial<Task>) {
-    return this.http.post<Task>(this.baseUrl, data, {
-      context: new HttpContext().set(WITH_CREDENTIALS, true),
-    });
+    return this.http.post<Task>(this.baseUrl, data);
   }
 
   updateTask(id: string, data: Partial<Task>) {
-    return this.http.put<Task>(`${this.baseUrl}/${id}`, data, {
-      context: new HttpContext().set(WITH_CREDENTIALS, true),
-    });
+    return this.http.put<Task>(`${this.baseUrl}/${id}`, data);
   }
 
   deleteTask(id: string) {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, {
-      context: new HttpContext().set(WITH_CREDENTIALS, true),
-    });
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
