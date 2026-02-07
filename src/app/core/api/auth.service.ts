@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { WITH_CREDENTIALS } from '../../shared/models/user.context.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,8 @@ export class AuthApiService {
   }
 
   validateSession() {
-    return this.http.get(`${this.baseUrl}/me/`);
+    return this.http.get(`${this.baseUrl}/me/`, {
+      context: new HttpContext().set(WITH_CREDENTIALS, true),
+    });
   }
 }
