@@ -14,7 +14,7 @@ import { HeaderComponent } from '../../components/header.component/header.compon
 import { TableComponent } from '../../components/table.component/table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskFormDialogComponent } from '../../components/task.form.dialog.component/task.form.dialog.component';
-import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, filter, map, Observable, startWith, switchMap } from 'rxjs';
 import {
   DialogResponse,
   TaskForm,
@@ -23,6 +23,10 @@ import { TaskService } from '../../../core/services/task.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/user.model';
 import { LoadingService } from '../../../shared/services/loading.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Task } from '../../../core/models/task.model';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'task.list.page',
   standalone: true,
@@ -33,6 +37,9 @@ import { LoadingService } from '../../../shared/services/loading.service';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   templateUrl: './task.list.page.html',
   styleUrl: './task.list.page.scss',
@@ -42,9 +49,11 @@ export class TaskListPage implements OnInit {
   private authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private taskService = inject(TaskService);
-  private loading = inject(LoadingService)
   tasks$ = this.taskService.getTasks();
   user$: Observable<User | null> = new BehaviorSubject(null);
+  filteredTasks$ = new BehaviorSubject<Task[]>([]);
+
+  searchControl = new FormControl('');
 
   constructor() {
     this.user$ = this.authService.user$;
@@ -71,6 +80,17 @@ export class TaskListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.taskService.loadTasks();
+    combineLatest([
+      this.tasks$,
+      this.searchControl.valueChanges.pipe(debounceTime(300), startWith('')),
+    ])
+      .pipe(
+        map(([tasks, searchTerm]) =>
+          tasks.filter((task) =>
+            task.title.toLowerCase().includes((searchTerm || '').toLowerCase() ||  ''),
+          ),
+        ),
+      )
+      .subscribe((filtered) => this.filteredTasks$.next(filtered));
   }
 }

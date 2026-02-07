@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthApiService } from '../api/auth/auth.service';
+import { AuthApiService } from '../api/auth.service';
 import { User } from '../models/user.model';
 import { BehaviorSubject } from 'rxjs';
 

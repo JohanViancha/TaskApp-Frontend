@@ -13,6 +13,11 @@
   margin-bottom: 16px;
 }
 
+.search {
+  width: 400px;
+  text-align: left;
+}
+
 @media (max-width: 768px) {
   th:nth-child(3),
   td:nth-child(3) {

@@ -1,14 +1,26 @@
 <header-component />
+
 <mat-card class="container">
   <div class="header">
     <h2>Lista de tareas</h2>
+
+    <!-- Buscador -->
 
     <button mat-raised-button color="primary" (click)="openCreateTask()">
       <mat-icon>add</mat-icon>
       Nueva tarea
     </button>
   </div>
-  <table-component
-    [tasks]="(tasks$ | async) || []"
-  />
+
+  <mat-form-field appearance="outline" class="search">
+    <mat-label>Buscar tarea</mat-label>
+    <input
+      matInput
+      [formControl]="searchControl"
+      placeholder="Escribe el título"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <table-component [tasks]="(filteredTasks$ | async) || []" />
 </mat-card>

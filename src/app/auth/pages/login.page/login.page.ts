@@ -1,3 +1,4 @@
+import { LoadingService } from './../../../shared/services/loading.service';
 import { UserService } from './../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
@@ -8,7 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { filter, switchMap, tap } from 'rxjs';
+import { filter, finalize, switchMap, tap } from 'rxjs';
 import { ActionDialogComponent } from '../../../shared/components/action.dialog.component/action.dialog.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoadingComponent } from '../../../shared/components/loading.component/loading.component';
@@ -35,6 +36,7 @@ export class LoginPage {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private dialog = inject(MatDialog);
+  private loadingService = inject(LoadingService)
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -79,7 +81,7 @@ export class LoginPage {
       this.loginForm.markAllAsTouched();
       return;
     }
-
+    this.loadingService.show()
     const { email } = this.loginForm.getRawValue();
 
     this.authService
@@ -95,6 +97,7 @@ export class LoginPage {
           this.authService.setUser(data.user);
           this.router.navigate(['/tasks']);
         }),
+        finalize(()=> this.loadingService.hide())
       )
 
       .subscribe();

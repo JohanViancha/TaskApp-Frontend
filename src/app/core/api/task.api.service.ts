@@ -1,8 +1,7 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Task } from '../models/task.model';
-import { WITH_CREDENTIALS } from '../../shared/models/user.context.model';
 
 @Injectable({
   providedIn: 'root',
