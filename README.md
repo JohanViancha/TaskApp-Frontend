@@ -28,6 +28,8 @@ La aplicación es **responsive** y está optimizada para diferentes dispositivos
 
 ## Estructura de Carpetas
 
+```plaintext
+
 src/
 ├── app/
 │ │ ├── tasks/
