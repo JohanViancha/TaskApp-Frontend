@@ -1,7 +1,7 @@
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
-import { HttpClient, HttpContext } from '@angular/common/http';
 import { WITH_CREDENTIALS } from '../../shared/models/user.context.model';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class AuthApiService {
 
   validateSession() {
     return this.http.get(`${this.baseUrl}/me/`, {
-      withCredentials: true
+      context: new HttpContext().set(WITH_CREDENTIALS, true)
     });
   }
 }
