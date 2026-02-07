@@ -43,7 +43,7 @@ src/
 │ ├── core/ # Interceptors, Guards, State management
 │ └── app.component.ts
 
-
+``` 
 
 ---
 
@@ -90,4 +90,16 @@ Componentes standalone y lazy loading
 El código está preparado para integrarse con backend serverless en Cloud Functions y Firestore.
 
 
-```bash
+### Evidencias
+
+## Capturas de pantalla de la aplicación
+
+Muestra la página principal, el formulario de login, la tabla de tareas, o el modal de crear/editar tareas.
+
+<img width="1910" height="957" alt="image" src="https://github.com/user-attachments/assets/33785010-a66d-4930-85ba-40b74eefaca7" />
+
+
+## Pantalla de lista de tareas
+
+
+
