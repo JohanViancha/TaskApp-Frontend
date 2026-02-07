@@ -18,7 +18,7 @@ export class AuthApiService {
 
   validateSession() {
     return this.http.get(`${this.baseUrl}/me/`, {
-      context: new HttpContext().set(WITH_CREDENTIALS, true),
+      withCredentials: true
     });
   }
 }
