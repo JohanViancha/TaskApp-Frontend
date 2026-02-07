@@ -71,6 +71,7 @@ export class TableComponent {
     this.openEditTask(task)
       .afterClosed()
       .pipe(
+        tap(()=>  this.loadingService.show()),
         filter(
           (res: DialogResponse<TaskForm>) => !!res && res.action === 'save',
         ),
@@ -81,6 +82,7 @@ export class TableComponent {
           }),
         ),
       )
+      .pipe(finalize(() => this.loadingService.hide()))
       .subscribe();
   }
 

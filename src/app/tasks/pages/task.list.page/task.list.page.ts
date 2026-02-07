@@ -14,7 +14,18 @@ import { HeaderComponent } from '../../components/header.component/header.compon
 import { TableComponent } from '../../components/table.component/table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskFormDialogComponent } from '../../components/task.form.dialog.component/task.form.dialog.component';
-import { BehaviorSubject, combineLatest, debounceTime, filter, map, Observable, startWith, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  filter,
+  finalize,
+  map,
+  Observable,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 import {
   DialogResponse,
   TaskForm,
@@ -39,7 +50,7 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
   ],
   templateUrl: './task.list.page.html',
   styleUrl: './task.list.page.scss',
@@ -52,6 +63,7 @@ export class TaskListPage implements OnInit {
   tasks$ = this.taskService.getTasks();
   user$: Observable<User | null> = new BehaviorSubject(null);
   filteredTasks$ = new BehaviorSubject<Task[]>([]);
+  loadingService = inject(LoadingService);
 
   searchControl = new FormControl('');
 
@@ -66,6 +78,7 @@ export class TaskListPage implements OnInit {
       })
       .afterClosed()
       .pipe(
+        tap(() => this.loadingService.show()),
         filter(
           (res: DialogResponse<TaskForm>) => !!res && res.action === 'save',
         ),
@@ -76,6 +89,7 @@ export class TaskListPage implements OnInit {
           }),
         ),
       )
+      .pipe(finalize(() => this.loadingService.hide()))
       .subscribe();
   }
 
@@ -88,7 +102,9 @@ export class TaskListPage implements OnInit {
       .pipe(
         map(([tasks, searchTerm]) =>
           tasks.filter((task) =>
-            task.title.toLowerCase().includes((searchTerm || '').toLowerCase() ||  ''),
+            task.title
+              .toLowerCase()
+              .includes((searchTerm || '').toLowerCase() || ''),
           ),
         ),
       )
