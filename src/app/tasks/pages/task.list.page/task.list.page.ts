@@ -80,6 +80,7 @@ export class TaskListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.taskService.loadTasks();
     combineLatest([
       this.tasks$,
       this.searchControl.valueChanges.pipe(debounceTime(300), startWith('')),

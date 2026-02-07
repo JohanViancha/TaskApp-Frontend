@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
-import { filter, switchMap, tap } from 'rxjs';
+import { filter, finalize, switchMap, tap } from 'rxjs';
 import { Task } from '../../../core/models/task.model';
 import { ActionDialogComponent } from '../../../shared/components/action.dialog.component/action.dialog.component.js';
 import { LoadingComponent } from '../../../shared/components/loading.component/loading.component';
@@ -42,7 +42,7 @@ import { LoadingService } from '../../../shared/services/loading.service';
 export class TableComponent {
   private dialog = inject(MatDialog);
   private taskService = inject(TaskService);
-  loadingService = inject(LoadingService)
+  loadingService = inject(LoadingService);
 
   displayedColumns: string[] = [
     'title',
@@ -56,11 +56,14 @@ export class TableComponent {
 
   toggleCompleted(task: Task) {
     if (task.completed) return;
+    this.loadingService.show();
     this.taskService
       .updateTask(task.id, {
         ...task,
         completed: !task.completed,
       })
+      .pipe(finalize(() => this.loadingService.hide()))
+
       .subscribe();
   }
 
@@ -87,13 +90,19 @@ export class TableComponent {
       .pipe(
         tap((confirmed) => {
           if (!confirmed) return;
-          this.taskService.deleteTask(id).subscribe();
+          this.loadingService.show();
+          this.taskService
+            .deleteTask(id)
+            .pipe(
+              finalize(() => {
+                this.loadingService.hide();
+              }),
+            )
+            .subscribe();
         }),
       )
       .subscribe();
   }
-
-
 
   openDialogConfirmDeletion(title: string) {
     return this.dialog.open(ActionDialogComponent, {
@@ -115,5 +124,4 @@ export class TableComponent {
       data: task,
     });
   }
-
 }
