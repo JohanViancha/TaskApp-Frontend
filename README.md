@@ -1,36 +1,91 @@
-# ATOM FE CHALLENGE TEMPLATE - ANGULAR
+# TaskApp - Frontend
 
-Este proyecto es una plantilla con lo necesario para comenzar a desarrollar el front-end de la aplicación de la prueba técnica de Atom. Se base en Angular con la versión 17.3.6.
-Se ha realizado la instalación y configuración de varias dependencias necesarias para el desarrollo de la aplicación, como por ejemplo: Angular Material.
+## Descripción
 
-## Instrucciones
-Siéntete libre de clonar este repositorio y utilizarlo como base para el desarrollo de la aplicación. Sigue las indicates de la prueba técnica para completar la aplicación y desarrolla como más te sientas cómodo.
+Aplicación web de gestión de tareas desarrollada con **Angular 17**, que permite a los usuarios:
 
-De igual manera puedes documentar dentro de este archivo todo lo que deseas contar sobre tu desarrollo, como por ejemplo, decisiones de diseño, problemas encontrados, etc.
+- Crear, editar y eliminar tareas
+- Marcar tareas como completadas
+- Buscar tareas por título de forma reactiva
+- Filtrar y mostrar tareas en una tabla
+- Login con correo electrónico
+- Interacción con backend serverless usando **Cloud Functions** y **Firebase Firestore**
 
-## Comentarios sobre el desarrollo
-...
+La aplicación es **responsive** y está optimizada para diferentes dispositivos.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologías
 
-## Code scaffolding
+- Angular 17 (Standalone Components)
+- Angular Material
+- RxJS (Observables, BehaviorSubjects)
+- Reactive Forms
+- TypeScript
+- SCSS
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## Estructura de Carpetas
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+src/
+├── app/
+│ │ ├── tasks/
+│ │ │ ├── pages/ # Componentes de páginas (list, form)
+│ │ │ ├── components/ # Componentes reutilizables (tabla, filtros, modales)
+│ │ │ ├── services/ # Servicios específicos de tasks (TaskService, TaskApiService)
+│ │ └── auth/
+│ │ ├── pages/ # Página de login
+│ │ ├── services/ # Servicios de autenticación
+│ ├── shared/ # Componentes, pipes y servicios compartidos
+│ ├── core/ # Interceptors, Guards, State management
+│ └── app.component.ts
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Instalación
 
-## Further help
+### 1. Instalar dependencias
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+npm install
+
+### 2. Ejecutar en modo desarrollo
+
+
+ng serve
+
+### 3. Ejecutar en modo desarrollo
+
+export const environment = {
+  production: false,
+  apiUrl: 'https://<tu-cloud-function-url>/api',
+};
+
+
+### 4. Construir para producción
+
+ng build --prod
+
+
+
+### Características importantes
+
+Búsqueda de tareas con debounceTime y filtrado reactivo
+Manejo de loading con BehaviorSubject
+Modal para crear, editar y confirmar eliminación de tareas
+Seguridad: envío de JWT con cookies httpOnly al backend
+Diseño responsive con Angular Material
+
+
+Esta aplicación sigue los principios de arquitectura reactiva en Angular. Se priorizó la calidad del código y patrones de diseño como:
+
+Observables y BehaviorSubject para manejo de estado
+Reactive Forms para formularios
+Modularidad por features
+Componentes standalone y lazy loading
+El código está preparado para integrarse con backend serverless en Cloud Functions y Firestore.
+
+
+```bash
